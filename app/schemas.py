@@ -19,9 +19,6 @@ class MemoCreate(BaseModel):
     title: str
     content: str
 
-class MemoRead(BaseModel):
-    user_id: int
-
 class MemoUpdate(BaseModel):
     id: int
     user_id: int
