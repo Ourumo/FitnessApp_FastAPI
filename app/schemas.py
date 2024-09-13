@@ -25,10 +25,6 @@ class MemoUpdate(BaseModel):
     title: str
     content: str
 
-class MemoDelete(BaseModel):
-    id: int
-    user_id: int
-
 ### DateMemo
 class DateMemoCreate(BaseModel):
     user_id: int
@@ -42,30 +38,15 @@ class DateMemoUpdate(BaseModel):
     title: str
     content: str
 
-class DateMemoDelete(BaseModel):
-    id: int
-    user_id: int
-
 ### TrainingList
 class TrainingListCreate(BaseModel):
     user_id: int
     name: str
 
-class ALLTrainingListRead(BaseModel):
-    user_id: int
-
-class TrainingListRead(BaseModel):
-    id: int
-    user_id: int
-
 class TrainingListUpdate(BaseModel):
     id: int
     user_id: int
     name: str
-
-class TrainingListDelete(BaseModel):
-    id: int
-    user_id: int
 
 ### Training
 class TrainingCreate(BaseModel):
@@ -80,9 +61,6 @@ class TrainingCreate(BaseModel):
     img: bytes
     gif: bytes
 
-class TrainingRead(BaseModel):
-    id: int
-
 ### TrainingListDetail
 class TrainingListDetailCreate(BaseModel):
     user_id: int
@@ -90,18 +68,7 @@ class TrainingListDetailCreate(BaseModel):
     training_id: int
     content: str
 
-class ALLTrainingListDetailRead(BaseModel):
-    user_id: int
-
-class TrainingListDetailRead(BaseModel):
-    user_id: int
-    training_list_id: int
-
 class TrainingListDetailUpdate(BaseModel):
     id: int
     user_id: int
     content: str
-
-class TrainingListDetailDelete(BaseModel):
-    id: int
-    user_id: int
