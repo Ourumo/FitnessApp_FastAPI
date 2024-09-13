@@ -15,6 +15,10 @@ def get_db():
     finally:
         db.close()
 
+@app.get("/")
+def home():
+    return {"message": "This page is FitnessApp Server Page!"}
+
 @app.post("/register")
 def register(user: schemas.UserRegister, db: Session = Depends(get_db)):
     db_user = crud.check_email(db, email=user.email)
