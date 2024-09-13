@@ -6,7 +6,8 @@ def regiseter(db: Session, user: schemas.UserRegister):
     db_user = models.User(
         email=user.email,
         name=user.name,
-        password=user.password
+        password=user.password,
+        profile_img="assets/profile_default.jpg" # 이미지 관련 코드 작성 필요
     )
     db.add(db_user)
     db.commit()
