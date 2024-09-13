@@ -36,9 +36,6 @@ class DateMemoCreate(BaseModel):
     content: str
     datetime: str
 
-class DateMemoRead(BaseModel):
-    user_id: int
-
 class DateMemoUpdate(BaseModel):
     id: int
     user_id: int
