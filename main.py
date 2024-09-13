@@ -22,7 +22,7 @@ def register(user: schemas.UserRegister, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="이메일 중복")
     return crud.regiseter(db=db, user=user)
 
-@app.get("/login")
+@app.post("/login")
 def login(user: schemas.UserLogin, db: Session = Depends(get_db)):
     db_user = crud.login(db, user=user)
     if db_user is None:
