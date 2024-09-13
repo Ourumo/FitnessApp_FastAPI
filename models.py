@@ -52,6 +52,7 @@ class TrainingListDetail(Base):
     __tablename__ = "training_list_detail"
 
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey('training_list.id'))
-    user_id = Column(Integer, ForeignKey('training.id'))
+    user_id = Column(Integer, ForeignKey('training_list.user_id'))
+    training_list_id = Column(Integer, ForeignKey('training_list.id'))
+    training_id = Column(Integer, ForeignKey('training.id'))
     content = Column(String)
