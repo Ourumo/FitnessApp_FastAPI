@@ -99,3 +99,14 @@ def update_training_list(traininglist: schemas.TrainingListUpdate, db: Session =
 @app.delete("/traininglist")
 def delete_training_list(id: int, userid: int, db: Session = Depends(get_db)):
     return crud.delete_training_list(db, id=id, userid=userid)
+
+### 운동
+# 운동 추가
+@app.post("/training")
+def create_training(training: schemas.TrainingCreate, db: Session = Depends(get_db)):
+    return crud.create_training(db, training=training)
+
+# 운동 로드
+@app.get("/training")
+def read_training(db: Session = Depends(get_db)):
+    return crud.read_training(db)

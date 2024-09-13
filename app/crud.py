@@ -136,3 +136,26 @@ def delete_training_list(db: Session, id: int, userid: int):
     db.delete(db_traininglist)
     db.commit()
     return {"message": "success"}
+
+# 운동 create
+def create_training(db: Session, training: schemas.TrainingCreate):
+    db_training = models.Training(
+        category=training.category,
+        name=training.name,
+        target=training.target,
+        tip=training.tip,
+        preparation=training.preparation,
+        movement=training.movement,
+        breathing=training.breathing,
+        precautions=training.precautions,
+        img=training.img,
+        gif=training.gif
+    )
+    db.add(db_training)
+    db.commit()
+    db.refresh(db_training)
+    return db_training
+
+# 운동 read
+def read_training(db: Session):
+    return db.query(models.Training).all()
