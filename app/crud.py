@@ -5,7 +5,8 @@ from . import models, schemas
 def regiseter(db: Session, user: schemas.UserRegister):
     db_user = models.User(
         email=user.email,
-        name=user.name
+        name=user.name,
+        password=user.password
     )
     db.add(db_user)
     db.commit()
@@ -13,8 +14,8 @@ def regiseter(db: Session, user: schemas.UserRegister):
     return db_user
 
 # 이메일 중복 확인
-def check_email(db: Session, user: schemas.UserCheckEmail):
-    return db.query(models.User).filter(models.User.email == user.email).first()
+def check_email(db: Session, email):
+    return db.query(models.User).filter(models.User.email == email).first()
 
 # 로그인
 def login(db: Session, user: schemas.UserLogin):
