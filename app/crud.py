@@ -42,7 +42,10 @@ def read_memo(db: Session, userid: int):
 
 # 메모 update
 def update_memo(db: Session, memo: schemas.MemoUpdate):
-    db_memo = db.query(models.Memo).filter(models.Memo.id == memo.id, models.Memo.user_id == memo.user_id).first()
+    db_memo = db.query(models.Memo).filter(
+        models.Memo.id == memo.id,
+        models.Memo.user_id == memo.user_id
+    ).first()
     db_memo.title = memo.title
     db_memo.content = memo.content
     db.commit()
@@ -51,7 +54,10 @@ def update_memo(db: Session, memo: schemas.MemoUpdate):
 
 # 메모 delete
 def delete_memo(db: Session, id: int, userid: int):
-    db_memo = db.query(models.Memo).filter(models.Memo.id == id, models.Memo.user_id == userid).first()
+    db_memo = db.query(models.Memo).filter(
+        models.Memo.id == id,
+        models.Memo.user_id == userid
+    ).first()
     db.delete(db_memo)
     db.commit()
     return {"message": "success"}
@@ -75,7 +81,10 @@ def read_datememo(db: Session, userid: int):
 
 # 달력 메모 update
 def update_datememo(db: Session, datememo: schemas.DateMemoUpdate):
-    db_datememo = db.query(models.DateMemo).filter(models.DateMemo.id == datememo.id, models.DateMemo.user_id == datememo.user_id).first()
+    db_datememo = db.query(models.DateMemo).filter(
+        models.DateMemo.id == datememo.id,
+        models.DateMemo.user_id == datememo.user_id
+    ).first()
     db_datememo.title = datememo.title
     db_datememo.content = datememo.content
     db.commit()
@@ -84,7 +93,10 @@ def update_datememo(db: Session, datememo: schemas.DateMemoUpdate):
 
 # 달력 메모 delete
 def delete_datememo(db: Session, id: int, userid: int):
-    db_datememo = db.query(models.DateMemo).filter(models.DateMemo.id == id, models.DateMemo.user_id == userid).first()
+    db_datememo = db.query(models.DateMemo).filter(
+        models.DateMemo.id == id,
+        models.DateMemo.user_id == userid
+    ).first()
     db.delete(db_datememo)
     db.commit()
     return {"message": "success"}
