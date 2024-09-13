@@ -6,6 +6,9 @@ class UserRegister(BaseModel):
     name: str
     password: str
 
+class UserCheckEmail(BaseModel):
+    email: str
+
 class UserLogin(BaseModel):
     email: str
     password: str
