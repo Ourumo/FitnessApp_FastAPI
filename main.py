@@ -78,3 +78,24 @@ def update_datememo(datememo: schemas.DateMemoUpdate, db: Session = Depends(get_
 @app.delete("/datememo")
 def delete_datememo(id: int, userid: int, db: Session = Depends(get_db)):
     return crud.delete_datememo(db, id=id, userid=userid)
+
+### 운동 리스트
+# 운동 리스트 생성
+@app.post("/traininglist")
+def create_training_list(traininglist: schemas.TrainingListCreate, db: Session = Depends(get_db)):
+    return crud.create_training_list(db, traininglist=traininglist)
+
+# 운동 리스트 로드
+@app.get("/traininglist")
+def read_training_list(userid: int, db: Session = Depends(get_db)):
+    return crud.read_training_list(db, userid=userid)
+
+# 운동 리스트 업데이트
+@app.put("/traininglist")
+def update_training_list(traininglist: schemas.TrainingListUpdate, db: Session = Depends(get_db)):
+    return crud.update_training_list(db, traininglist=traininglist)
+
+# 운동 리스트 삭제
+@app.delete("/traininglist")
+def delete_training_list(id: int, userid: int, db: Session = Depends(get_db)):
+    return crud.delete_training_list(db, id=id, userid=userid)

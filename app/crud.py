@@ -88,3 +88,39 @@ def delete_datememo(db: Session, id: int, userid: int):
     db.delete(db_datememo)
     db.commit()
     return {"message": "success"}
+
+# 운동 리스트 create
+def create_training_list(db: Session, traininglist: schemas.TrainingListCreate):
+    db_traininglist = models.TrainingList(
+        user_id=traininglist.user_id,
+        name=traininglist.name
+    )
+    db.add(db_traininglist)
+    db.commit()
+    db.refresh(db_traininglist)
+    return db_traininglist
+
+# 운동 리스트 read
+def read_training_list(db: Session, userid: int):
+    return db.query(models.TrainingList).filter(models.TrainingList.user_id == userid).all()
+
+# 운동 리스트 update
+def update_training_list(db: Session, traininglist: schemas.TrainingListUpdate):
+    db_traininglist = db.query(models.TrainingList).filter(
+        models.TrainingList.id == traininglist.id,
+        models.TrainingList.user_id == traininglist.user_id
+    ).first()
+    db_traininglist.name = traininglist.name
+    db.commit()
+    db.refresh(db_traininglist)
+    return db_traininglist
+
+# 운동 리스트 delete
+def delete_training_list(db: Session, id: int, userid: int):
+    db_traininglist = db.query(models.TrainingList).filter(
+        models.TrainingList.id == id,
+        models.TrainingList.user_id == userid
+    ).first()
+    db.delete(db_traininglist)
+    db.commit()
+    return {"message": "success"}
