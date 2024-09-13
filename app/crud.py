@@ -55,3 +55,36 @@ def delete_memo(db: Session, id: int, userid: int):
     db.delete(db_memo)
     db.commit()
     return {"message": "success"}
+
+# 달력 메모 create
+def create_datememo(db: Session, datememo: schemas.DateMemoCreate):
+    db_datememo = models.DateMemo(
+        user_id=datememo.user_id,
+        title=datememo.title,
+        content=datememo.content,
+        datetime=datememo.datetime
+    )
+    db.add(db_datememo)
+    db.commit()
+    db.refresh(db_datememo)
+    return db_datememo
+
+# 달력메모 read
+def read_datememo(db: Session, userid: int):
+    return db.query(models.DateMemo).filter(models.DateMemo.user_id == userid).all()
+
+# 달력메모 update
+def update_datememo(db: Session, datememo: schemas.DateMemoUpdate):
+    db_datememo = db.query(models.DateMemo).filter(models.DateMemo.id == datememo.id, models.DateMemo.user_id == datememo.user_id).first()
+    db_datememo.title = datememo.title
+    db_datememo.content = datememo.content
+    db.commit()
+    db.refresh(db_datememo)
+    return db_datememo
+
+# 달력메모 delete
+def delete_datememo(db: Session, id: int, userid: int):
+    db_datememo = db.query(models.DateMemo).filter(models.DateMemo.id == id, models.DateMemo.user_id == userid).first()
+    db.delete(db_datememo)
+    db.commit()
+    return {"message": "success"}

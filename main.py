@@ -15,10 +15,12 @@ def get_db():
     finally:
         db.close()
 
+# 루트 페이지
 @app.get("/")
 def home():
     return {"message": "This page is FitnessApp Server Page!"}
 
+### 유저
 # 회원가입
 @app.post("/register")
 def register(user: schemas.UserRegister, db: Session = Depends(get_db)):
@@ -35,6 +37,7 @@ def login(user: schemas.UserLogin, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="아이디나 비밀번호 틀림")
     return db_user
 
+### 메모
 # 메모 생성
 @app.post("/memo")
 def create_memo(memo: schemas.MemoCreate, db: Session = Depends(get_db)):
@@ -54,3 +57,24 @@ def update_memo(memo: schemas.MemoUpdate, db: Session = Depends(get_db)):
 @app.delete("/memo")
 def delete_memo(id: int, userid: int, db: Session = Depends(get_db)):
     return crud.delete_memo(db, id=id, userid=userid)
+
+### 달력메모
+# 달력메모 생성
+@app.post("/datememo")
+def create_datememo(datememo: schemas.DateMemoCreate, db: Session = Depends(get_db)):
+    return crud.create_datememo(db, datememo=datememo)
+
+# 달력메모 로드
+@app.get("/datememo")
+def read_datememo(userid: int, db: Session = Depends(get_db)):
+    return crud.read_datememo(db, userid=userid)
+
+# 달력메모 업데이트
+@app.put("/datememo")
+def update_datememo(datememo: schemas.DateMemoUpdate, db: Session = Depends(get_db)):
+    return crud.update_datememo(db, datememo=datememo)
+
+# 달력메모 삭제
+@app.delete("/datememo")
+def delete_datememo(id: int, userid: int, db: Session = Depends(get_db)):
+    return crud.delete_datememo(db, id=id, userid=userid)
