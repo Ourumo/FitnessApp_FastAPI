@@ -19,11 +19,7 @@ class MemoCreate(BaseModel):
     title: str
     content: str
 
-class ALLMemoRead(BaseModel):
-    user_id: int
-
 class MemoRead(BaseModel):
-    id: int
     user_id: int
 
 class MemoUpdate(BaseModel):
@@ -43,11 +39,7 @@ class DateMemoCreate(BaseModel):
     content: str
     datetime: str
 
-class ALLDateMemoRead(BaseModel):
-    user_id: int
-
 class DateMemoRead(BaseModel):
-    id: int
     user_id: int
 
 class DateMemoUpdate(BaseModel):
