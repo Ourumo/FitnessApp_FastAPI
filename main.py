@@ -58,23 +58,23 @@ def update_memo(memo: schemas.MemoUpdate, db: Session = Depends(get_db)):
 def delete_memo(id: int, userid: int, db: Session = Depends(get_db)):
     return crud.delete_memo(db, id=id, userid=userid)
 
-### 달력메모
-# 달력메모 생성
+### 달력 메모
+# 달력 메모 생성
 @app.post("/datememo")
 def create_datememo(datememo: schemas.DateMemoCreate, db: Session = Depends(get_db)):
     return crud.create_datememo(db, datememo=datememo)
 
-# 달력메모 로드
+# 달력 메모 로드
 @app.get("/datememo")
 def read_datememo(userid: int, db: Session = Depends(get_db)):
     return crud.read_datememo(db, userid=userid)
 
-# 달력메모 업데이트
+# 달력 메모 업데이트
 @app.put("/datememo")
 def update_datememo(datememo: schemas.DateMemoUpdate, db: Session = Depends(get_db)):
     return crud.update_datememo(db, datememo=datememo)
 
-# 달력메모 삭제
+# 달력 메모 삭제
 @app.delete("/datememo")
 def delete_datememo(id: int, userid: int, db: Session = Depends(get_db)):
     return crud.delete_datememo(db, id=id, userid=userid)

@@ -69,11 +69,11 @@ def create_datememo(db: Session, datememo: schemas.DateMemoCreate):
     db.refresh(db_datememo)
     return db_datememo
 
-# 달력메모 read
+# 달력 메모 read
 def read_datememo(db: Session, userid: int):
     return db.query(models.DateMemo).filter(models.DateMemo.user_id == userid).all()
 
-# 달력메모 update
+# 달력 메모 update
 def update_datememo(db: Session, datememo: schemas.DateMemoUpdate):
     db_datememo = db.query(models.DateMemo).filter(models.DateMemo.id == datememo.id, models.DateMemo.user_id == datememo.user_id).first()
     db_datememo.title = datememo.title
@@ -82,7 +82,7 @@ def update_datememo(db: Session, datememo: schemas.DateMemoUpdate):
     db.refresh(db_datememo)
     return db_datememo
 
-# 달력메모 delete
+# 달력 메모 delete
 def delete_datememo(db: Session, id: int, userid: int):
     db_datememo = db.query(models.DateMemo).filter(models.DateMemo.id == id, models.DateMemo.user_id == userid).first()
     db.delete(db_datememo)
