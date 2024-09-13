@@ -23,3 +23,35 @@ def login(db: Session, user: schemas.UserLogin):
         models.User.email == user.email,
         models.User.password == user.password
     ).first()
+
+# 메모 create
+def create_memo(db: Session, memo: schemas.MemoCreate):
+    db_memo = models.Memo(
+        user_id=memo.user_id,
+        title=memo.title,
+        content=memo.content
+    )
+    db.add(db_memo)
+    db.commit()
+    db.refresh(db_memo)
+    return db_memo
+
+# 메모 read
+def read_memo(db: Session, userid: int):
+    return db.query(models.Memo).filter(models.Memo.user_id == userid).all()
+
+# 메모 update
+def update_memo(db: Session, memo: schemas.MemoUpdate):
+    db_memo = db.query(models.Memo).filter(models.Memo.id == memo.id, models.Memo.user_id == memo.user_id).first()
+    db_memo.title = memo.title
+    db_memo.content = memo.content
+    db.commit()
+    db.refresh(db_memo)
+    return db_memo
+
+# 메모 delete
+def delete_memo(db: Session, id: int, userid: int):
+    db_memo = db.query(models.Memo).filter(models.Memo.id == id, models.Memo.user_id == userid).first()
+    db.delete(db_memo)
+    db.commit()
+    return {"message": "success"}
