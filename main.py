@@ -110,3 +110,24 @@ def create_training(training: schemas.TrainingCreate, db: Session = Depends(get_
 @app.get("/training")
 def read_training(db: Session = Depends(get_db)):
     return crud.read_training(db)
+
+### 세부 운동 리스트
+# 세부 운동 리스트 생성
+@app.post("/traininglistdetail")
+def create_training_list_detail(traininglistdetail: schemas.TrainingListDetailCreate, db: Session = Depends(get_db)):
+    return crud.create_training_list_detail(db, traininglistdetail=traininglistdetail)
+
+# 세부 운동 리스트 로드
+@app.get("/traininglistdetail")
+def read_training_list_detail(userid: int, traininglistid: int, db: Session = Depends(get_db)):
+    return crud.read_training_list_detail(db, userid=userid, traininglistid=traininglistid)
+
+# 세부 운동 리스트 업데이트
+@app.put("/traininglistdetail")
+def update_training_list_detail(traininglistdetail: schemas.TrainingListDetailUpdate, db: Session = Depends(get_db)):
+    return crud.update_training_list_detail(db, traininglistdetail=traininglistdetail)
+
+# 세부 운동 리스트 삭제
+@app.delete("/traininglistdetail")
+def delete_training_list_detail(id: int, userid: int, db: Session = Depends(get_db)):
+    return crud.delete_training_list_detail(db, id=id, userid=userid)

@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
 from . import models, schemas
+from fastapi.encoders import jsonable_encoder
 
 # 화원가입
 def regiseter(db: Session, user: schemas.UserRegister):
@@ -7,7 +8,7 @@ def regiseter(db: Session, user: schemas.UserRegister):
         email=user.email,
         name=user.name,
         password=user.password,
-        profile_img="assets/profile_default.jpg" # 이미지 관련 코드 작성 필요
+        #profile_img="assets/profile_default.jpg" # 이미지 관련 코드 작성 필요
     )
     db.add(db_user)
     db.commit()
@@ -160,3 +161,57 @@ def create_training(db: Session, training: schemas.TrainingCreate):
 # 운동 read
 def read_training(db: Session):
     return db.query(models.Training).all()
+
+# 세부 운동 리스트 create
+def create_training_list_detail(db: Session, traininglistdetail: schemas.TrainingListDetailCreate):
+    db_traininglistdetail = models.TrainingListDetail(
+        user_id=traininglistdetail.user_id,
+        training_list_id=traininglistdetail.training_list_id,
+        training_id=traininglistdetail.training_id,
+        content=traininglistdetail.content
+    )
+    db.add(db_traininglistdetail)
+    db.commit()
+    db.refresh(db_traininglistdetail)
+    return db_traininglistdetail
+
+# 세부 운동 리스트 read
+def read_training_list_detail(db: Session, userid: int, traininglistid: int):
+    db_traininglistdetail = db.query(models.TrainingListDetail, models.Training).join(
+        models.Training,
+        models.TrainingListDetail.training_id == models.Training.id
+        ).filter(
+            models.TrainingListDetail.user_id == userid,
+            models.TrainingListDetail.training_list_id == traininglistid
+    ).all()
+    result = []
+    for training_list_detail, training in db_traininglistdetail:
+        training_list_detail_data = jsonable_encoder(training_list_detail)
+        training_data = jsonable_encoder(training)
+        result.append({
+            "training_list_detail": training_list_detail_data,
+            "training": training_data
+        })
+    return result
+
+# 세부 운동 리스트 update
+def update_training_list_detail(db: Session, traininglistdetail: schemas.TrainingListDetailUpdate):
+    db_traininglistdetail = db.query(models.TrainingListDetail).filter(
+        models.TrainingListDetail.id == traininglistdetail.id,
+        models.TrainingListDetail.user_id == traininglistdetail.user_id
+    ).first()
+    db_traininglistdetail.content = traininglistdetail.content
+    db.add(db_traininglistdetail)
+    db.commit()
+    db.refresh(db_traininglistdetail)
+    return db_traininglistdetail
+
+# 세부 운동 리스트 delete
+def delete_training_list_detail(db: Session, id: int, userid: int):
+    db_traininglist_detail = db.query(models.TrainingListDetail).filter(
+        models.TrainingListDetail.id == id,
+        models.TrainingListDetail.user_id == userid
+    ).first()
+    db.delete(db_traininglist_detail)
+    db.commit()
+    return {"message": "success"}
