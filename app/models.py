@@ -8,7 +8,8 @@ class User(Base):
     email = Column(String, unique=True, index=True)
     name = Column(String)
     password = Column(String)
-    profile_img = Column(LargeBinary)
+    profile_img = Column(String)
+    updated_at = Column(String)
     
 class Memo(Base):
     __tablename__ = "memos"
@@ -46,8 +47,8 @@ class Training(Base):
     movement = Column(String)
     breathing = Column(String)
     precautions = Column(String)
-    img = Column(LargeBinary)
-    gif = Column(LargeBinary)
+    img = Column(String)
+    gif = Column(String)
 
 class TrainingListDetail(Base):
     __tablename__ = "training_list_detail"
