@@ -22,7 +22,7 @@ def home():
 
 ### 유저
 # 회원가입
-@app.post("/register")
+@app.post("/user/register")
 def register(user: schemas.UserRegister, db: Session = Depends(get_db)):
     db_user = crud.check_email(db, email=user.email)
     if db_user:
@@ -30,7 +30,7 @@ def register(user: schemas.UserRegister, db: Session = Depends(get_db)):
     return crud.regiseter(db, user=user)
 
 # 로그인
-@app.post("/login")
+@app.post("/user/login")
 def login(user: schemas.UserLogin, db: Session = Depends(get_db)):
     db_user = crud.login(db, user=user)
     if db_user is None:
@@ -38,7 +38,7 @@ def login(user: schemas.UserLogin, db: Session = Depends(get_db)):
     return db_user
 
 # 프로필 이미지 변경
-@app.put("/user")
+@app.put("/user/profile")
 def login(user: schemas.UserProfileImgUpdate, db: Session = Depends(get_db)):
     db_user = crud.update_profile_img(db, user=user)
     if db_user is None:
