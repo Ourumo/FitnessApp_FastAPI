@@ -3,6 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from dotenv import load_dotenv
 import os
+import boto3
 
 load_dotenv()
 
@@ -14,3 +15,9 @@ engine = create_engine(
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
+
+s3 = boto3.client(
+    's3',
+    aws_access_key_id=os.environ.get("CREDENTIALS_ACCESS_KEY"),
+    aws_secret_access_key=os.environ.get("CREDENTIALS_SECRET_KEY")
+)
