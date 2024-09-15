@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from . import models, schemas
 from fastapi.encoders import jsonable_encoder
+from datetime import datetime
 
 # 화원가입
 def regiseter(db: Session, user: schemas.UserRegister):
@@ -10,6 +11,7 @@ def regiseter(db: Session, user: schemas.UserRegister):
         password=user.password,
         #profile_img="assets/profile_default.jpg" # 이미지 관련 코드 작성 필요
     )
+    db_user.updated_at=datetime.now()
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
@@ -30,6 +32,7 @@ def login(db: Session, user: schemas.UserLogin):
 def update_profile_img(db: Session, user: schemas.UserProfileImgUpdate):
     db_user = db.query(models.User).filter(models.User.id == user.id).first()
     db_user.profile_img = user.profile_img
+    db_user.updated_at=datetime.now()
     db.commit()
     db.refresh(db_user)
     return db_user
