@@ -37,6 +37,14 @@ def login(user: schemas.UserLogin, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="아이디나 비밀번호 틀림")
     return db_user
 
+# 프로필 이미지 변경
+@app.put("/user")
+def login(user: schemas.UserProfileImgUpdate, db: Session = Depends(get_db)):
+    db_user = crud.update_profile_img(db, user=user)
+    if db_user is None:
+        raise HTTPException(status_code=400, detail="없는 유저인데유")
+    return db_user
+
 ### 메모
 # 메모 생성
 @app.post("/memo")

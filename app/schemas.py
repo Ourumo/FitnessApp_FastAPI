@@ -12,7 +12,11 @@ class UserCheckEmail(BaseModel):
 class UserLogin(BaseModel):
     email: str
     password: str
-    
+
+class UserProfileImgUpdate(BaseModel):
+    id: int
+    profile_img: bytes
+
 ### Memo
 class MemoCreate(BaseModel):
     user_id: int

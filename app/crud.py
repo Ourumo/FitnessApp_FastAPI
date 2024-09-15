@@ -26,6 +26,15 @@ def login(db: Session, user: schemas.UserLogin):
         models.User.password == user.password
     ).first()
 
+# 유저 프로필 이미지 업데이트
+def update_profile_img(db: Session, user: schemas.UserProfileImgUpdate):
+    db_user = db.query(models.User).filter(models.User.id == user.id).first()
+    db_user.profile_img = user.profile_img
+    db.commit()
+    db.refresh(db_user)
+    return db_user
+    
+
 # 메모 create
 def create_memo(db: Session, memo: schemas.MemoCreate):
     db_memo = models.Memo(
