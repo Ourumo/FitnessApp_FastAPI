@@ -1,7 +1,8 @@
-from fastapi import Depends, FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException, UploadFile, File, Form
 from sqlalchemy.orm import Session
 from app import crud, models, schemas
-from app.database import SessionLocal, engine
+from app.database import SessionLocal, engine, s3, s3_url
+from typing import Optional
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -27,7 +28,7 @@ def register(user: schemas.UserRegister, db: Session = Depends(get_db)):
     db_user = crud.check_email(db, email=user.email)
     if db_user:
         raise HTTPException(status_code=400, detail="이메일 중복")
-    return crud.regiseter(db, user=user)
+    return crud.regiseter(db, user=user, url=s3_url)
 
 # 로그인
 @app.post("/user/login")
@@ -35,12 +36,13 @@ def login(user: schemas.UserLogin, db: Session = Depends(get_db)):
     db_user = crud.login(db, user=user)
     if db_user is None:
         raise HTTPException(status_code=400, detail="아이디나 비밀번호 틀림")
+    print(db_user.profile_img)
     return db_user
 
 # 프로필 이미지 변경
 @app.put("/user/profile")
-def login(user: schemas.UserProfileImgUpdate, db: Session = Depends(get_db)):
-    db_user = crud.update_profile_img(db, user=user)
+def update_profile(id: int = Form(...), profileimg: Optional[UploadFile] = File(None), db: Session = Depends(get_db)):
+    db_user = crud.update_profile_img(db, id=id, profileimg=profileimg)
     if db_user is None:
         raise HTTPException(status_code=400, detail="없는 유저인데유")
     return db_user

@@ -1,17 +1,17 @@
 from sqlalchemy.orm import Session
-from . import models, schemas
+from . import models, schemas, database
 from fastapi.encoders import jsonable_encoder
 from datetime import datetime
 
 # 화원가입
-def regiseter(db: Session, user: schemas.UserRegister):
+def regiseter(db: Session, user: schemas.UserRegister, url: str):
     db_user = models.User(
         email=user.email,
         name=user.name,
         password=user.password,
-        #profile_img="assets/profile_default.jpg" # 이미지 관련 코드 작성 필요
     )
-    db_user.updated_at=datetime.now()
+    db_user.profile_img = f"{url}/profile_img/profile_default.jpg"
+    db_user.updated_at = datetime.now()
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
@@ -29,14 +29,32 @@ def login(db: Session, user: schemas.UserLogin):
     ).first()
 
 # 유저 프로필 이미지 업데이트
-def update_profile_img(db: Session, user: schemas.UserProfileImgUpdate):
-    db_user = db.query(models.User).filter(models.User.id == user.id).first()
-    db_user.profile_img = user.profile_img
-    db_user.updated_at=datetime.now()
+def update_profile_img(db: Session, id: int, profileimg):
+    db_user = db.query(models.User).filter(models.User.id == id).first()
+    if db_user:
+        if profileimg is None:
+            url = "profile_img/proile_default.jpg"
+        else:
+            temp_type = profileimg.filename.split('.')[-1]
+            temp_content_type = profileimg.headers['content-type']
+            url = f"profile_img/profile_{db_user.id}.{temp_type}"
+            try:
+                database.s3.upload_fileobj(
+                    profileimg.file,
+                    database.s3_bucket_name,
+                    f"{url}",
+                    ExtraArgs={
+                        'ContentType': temp_content_type,
+                        'ACL': 'public-read'
+                    }
+                )
+            except:
+                return None
+    db_user.profile_img = f"{database.s3_url}/{url}"
+    db_user.updated_at = datetime.now()
     db.commit()
     db.refresh(db_user)
     return db_user
-    
 
 # 메모 create
 def create_memo(db: Session, memo: schemas.MemoCreate):

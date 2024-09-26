@@ -19,5 +19,10 @@ Base = declarative_base()
 s3 = boto3.client(
     's3',
     aws_access_key_id=os.environ.get("CREDENTIALS_ACCESS_KEY"),
-    aws_secret_access_key=os.environ.get("CREDENTIALS_SECRET_KEY")
+    aws_secret_access_key=os.environ.get("CREDENTIALS_SECRET_KEY"),
+    region_name="ap-northeast-3"
 )
+
+s3_url = os.environ.get("AWS_S3_URL")
+
+s3_bucket_name = os.environ.get("AWS_S3_BUCKET_NAME")
