@@ -61,6 +61,19 @@ class TrainingCreate(BaseModel):
     precautions: str
     img: bytes
     gif: bytes
+    
+class TrainingUpdate(BaseModel):
+    id: int
+    category: str
+    name: str
+    target: str
+    tip: str
+    preparation: str
+    movement: str
+    breathing: str
+    precautions: str
+    img: bytes
+    gif: bytes
 
 ### TrainingListDetail
 class TrainingListDetailCreate(BaseModel):

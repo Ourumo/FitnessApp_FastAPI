@@ -192,6 +192,24 @@ def create_training(db: Session, training: schemas.TrainingCreate):
 def read_training(db: Session):
     return db.query(models.Training).all()
 
+# 운동 update
+def update_training(db: Session, training: schemas.TrainingUpdate):
+    db_training = db.query(models.Training).filter(models.Training.id == training.id).first()
+    db_training.category=training.category
+    db_training.name=training.name
+    db_training.target=training.target
+    db_training.tip=training.tip
+    db_training.preparation=training.preparation
+    db_training.movement=training.movement
+    db_training.breathing=training.breathing
+    db_training.precautions=training.precautions
+    db_training.img=training.img
+    db_training.gif=training.gif
+    db.add(db_training)
+    db.commit()
+    db.refresh(db_training)
+    return db_training
+
 # 세부 운동 리스트 create
 def create_training_list_detail(db: Session, traininglistdetail: schemas.TrainingListDetailCreate):
     db_traininglistdetail = models.TrainingListDetail(
