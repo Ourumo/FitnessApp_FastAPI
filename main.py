@@ -39,10 +39,10 @@ def login(user: schemas.UserLogin, db: Session = Depends(get_db)):
     print(db_user.profile_img)
     return db_user
 
-# 프로필 이미지 변경
+# 프로필 변경
 @app.put("/user/profile")
-def update_profile(id: int = Form(...), profileimg: Optional[UploadFile] = File(None), db: Session = Depends(get_db)):
-    db_user = crud.update_profile_img(db, id=id, profileimg=profileimg)
+def update_profile(id: int = Form(...), password: str = Form(None), profileimg: Optional[UploadFile] = File(None), db: Session = Depends(get_db)):
+    db_user = crud.update_profile(db, id=id, password=password, profileimg=profileimg)
     if db_user is None:
         raise HTTPException(status_code=400, detail="없는 유저인데유")
     return db_user
