@@ -36,7 +36,6 @@ def login(user: schemas.UserLogin, db: Session = Depends(get_db)):
     db_user = crud.login(db, user=user)
     if db_user is None:
         raise HTTPException(status_code=400, detail="아이디나 비밀번호 틀림")
-    print(db_user.profile_img)
     return db_user
 
 # 프로필 변경
