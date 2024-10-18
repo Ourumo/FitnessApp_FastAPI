@@ -120,6 +120,7 @@ def create_training(training: schemas.TrainingCreate, db: Session = Depends(get_
 def read_training(db: Session = Depends(get_db)):
     return crud.read_training(db)
 
+# 운동 업데이트
 @app.put("/training")
 def update_training(training: schemas.TrainingUpdate, db: Session = Depends(get_db)):
     return crud.update_training(db, training=training)
