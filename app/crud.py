@@ -194,6 +194,10 @@ def create_training(db: Session, training: schemas.TrainingCreate):
 def read_training(db: Session):
     return db.query(models.Training).all()
 
+# 운동 개수 read
+def read_training_count(db: Session):
+    return db.query(models.Training).count()
+
 # 운동 update
 def update_training(db: Session, training: schemas.TrainingUpdate):
     db_training = db.query(models.Training).filter(models.Training.id == training.id).first()
