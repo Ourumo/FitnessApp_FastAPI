@@ -194,6 +194,10 @@ def create_training(db: Session, training: schemas.TrainingCreate):
 def read_training(db: Session):
     return db.query(models.Training).all()
 
+# 운동 read 30개 제한
+def read_training_limit(db: Session):
+    return db.query(models.Training).limit(30).all()
+
 # 운동 개수 read
 def read_training_count(db: Session):
     return db.query(models.Training).count()
