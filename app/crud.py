@@ -167,9 +167,17 @@ def delete_training_list(db: Session, id: int, userid: int):
         models.TrainingList.id == id,
         models.TrainingList.user_id == userid
     ).first()
-    db.delete(db_traininglist)
-    db.commit()
-    return {"message": "success"}
+    if db_traininglist:
+        db_traininglistdetails = db.query(models.TrainingListDetail).filter(
+            models.TrainingListDetail.training_list_id == id).all()
+        if db_traininglistdetails:
+            for training_list_detail in db_traininglistdetails:
+                db.delete(training_list_detail)
+        db.delete(db_traininglist)
+        db.commit()
+        return {"message": "success"}
+    else:
+        return {"message": "failed"}
 
 # 운동 create
 def create_training(db: Session, training: schemas.TrainingCreate):
