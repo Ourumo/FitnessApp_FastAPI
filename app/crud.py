@@ -92,9 +92,13 @@ def delete_memo(db: Session, id: int, userid: int):
         models.Memo.id == id,
         models.Memo.user_id == userid
     ).first()
-    db.delete(db_memo)
-    db.commit()
-    return {"message": "success"}
+    if db_memo: 
+        db.delete(db_memo)
+        db.commit()
+        msg = {"message": "success"}
+    else:
+        msg = {"message": "failure"}
+    return msg
 
 # 달력 메모 create
 def create_datememo(db: Session, datememo: schemas.DateMemoCreate):
@@ -131,9 +135,13 @@ def delete_datememo(db: Session, id: int, userid: int):
         models.DateMemo.id == id,
         models.DateMemo.user_id == userid
     ).first()
-    db.delete(db_datememo)
-    db.commit()
-    return {"message": "success"}
+    if db_datememo:
+        db.delete(db_datememo)
+        db.commit()
+        msg = {"message": "success"}
+    else:
+        msg = {"message": "failure"}
+    return msg
 
 # 운동 리스트 create
 def create_training_list(db: Session, traininglist: schemas.TrainingListCreate):
@@ -175,9 +183,10 @@ def delete_training_list(db: Session, id: int, userid: int):
                 db.delete(training_list_detail)
         db.delete(db_traininglist)
         db.commit()
-        return {"message": "success"}
+        msg = {"message": "success"}
     else:
-        return {"message": "failed"}
+        msg = {"message": "failure"}
+    return msg
 
 # 운동 create
 def create_training(db: Session, training: schemas.TrainingCreate):
@@ -278,6 +287,10 @@ def delete_training_list_detail(db: Session, id: int, userid: int):
         models.TrainingListDetail.id == id,
         models.TrainingListDetail.user_id == userid
     ).first()
-    db.delete(db_traininglist_detail)
-    db.commit()
-    return {"message": "success"}
+    if db_traininglist_detail:
+        db.delete(db_traininglist_detail)
+        db.commit()
+        msg = {"message": "success"}
+    else:
+        msg = {"message": "failure"}
+    return msg
