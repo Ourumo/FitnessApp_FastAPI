@@ -46,6 +46,11 @@ def update_profile(id: int = Form(...), password: str = Form(None), profileimg: 
         raise HTTPException(status_code=400, detail="없는 유저인데유")
     return db_user
 
+# 유저 삭제
+@app.delete("/user")
+def delete_user(id: int, password: str, db: Session = Depends(get_db)):
+    return crud.delete_user(db, id=id, password=password)
+
 ### 메모
 # 메모 생성
 @app.post("/memo")

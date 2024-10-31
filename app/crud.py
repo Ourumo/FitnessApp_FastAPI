@@ -58,6 +58,20 @@ def update_profile(db: Session, id: int, password: str | None, profileimg):
     db.refresh(db_user)
     return db_user
 
+# 유저 delete
+def delete_user(db: Session, id: int, password: str):
+    db_user = db.query(models.User).filter(
+        models.User.id == id,
+        models.User.password == password
+    ).first()
+    if db_user:
+        db.delete(db_user)
+        db.commit()
+        msg = {"message": "success"}
+    else:
+        msg = {"message": "failure"}
+    return msg
+
 # 메모 create
 def create_memo(db: Session, memo: schemas.MemoCreate):
     db_memo = models.Memo(
@@ -92,7 +106,7 @@ def delete_memo(db: Session, id: int, userid: int):
         models.Memo.id == id,
         models.Memo.user_id == userid
     ).first()
-    if db_memo: 
+    if db_memo:
         db.delete(db_memo)
         db.commit()
         msg = {"message": "success"}
