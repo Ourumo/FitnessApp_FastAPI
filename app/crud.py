@@ -29,7 +29,7 @@ def login(db: Session, user: schemas.UserLogin):
     ).first()
 
 # 유저 프로필 업데이트
-def update_profile(db: Session, id: int, password: str | None, profileimg):
+def update_profile(db: Session, id: int, email: str, name: str, profileimg):
     db_user = db.query(models.User).filter(models.User.id == id).first()
     if db_user:          
         if profileimg is None:
@@ -50,8 +50,8 @@ def update_profile(db: Session, id: int, password: str | None, profileimg):
                 )
             except:
                 return None
-    if password is not None:
-        db_user.password = password
+    db_user.email = email
+    db_user.name = name
     db_user.profile_img = f"{database.s3_url}/{url}"
     db_user.updated_at = datetime.now()
     db.commit()
