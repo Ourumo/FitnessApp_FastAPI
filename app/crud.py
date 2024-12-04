@@ -33,7 +33,7 @@ def update_profile(db: Session, id: int, email: str, name: str, profileimg):
     db_user = db.query(models.User).filter(models.User.id == id).first()
     if db_user:          
         if profileimg is None:
-            url = "profile_img/proile_default.jpg"
+            url = "profile_img/profile_default.jpg"
         else:
             temp_type = profileimg.filename.split('.')[-1]
             temp_content_type = profileimg.headers['content-type']
